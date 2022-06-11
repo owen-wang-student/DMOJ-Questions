@@ -389,9 +389,9 @@ for i in range(numTurns):
         if True in array:
             dia4(2, row, column, board)
             array.clear()
-    # for i in board:
-    #     print(i)
-    # print("")
+    for i in board:
+        print(i)
+    print("")
 
     inp.pop(0)
     inp.pop(0)
