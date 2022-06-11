@@ -5,8 +5,10 @@ value = {"ace": 4,
          "queen": 2,
          "jack": 1
          }
+
 a = 0
 b = 0
+
 for i in range(52):
     deck.append(input())
 
