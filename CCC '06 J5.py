@@ -1,15 +1,19 @@
+global array
+array = []
+
+
 def create(config):
     board = []
     for i in range(10):
         temp = []
-        if i == 0:
+        if i == 0 or i == 9:
             for j in range(10):
-                temp.append(".") # change to 0
+                temp.append("O") # change to 0
             board.append(temp)
             continue
         for j in range(10):
-            if j == 0:
-                temp.append(".") # change to 0
+            if j == 0 or j == 9:
+                temp.append("O") # change to 0
             else:
                 temp.append(".")
         board.append(temp)
@@ -50,115 +54,187 @@ def count():
     return counters
 
 
-def horizontal1(turn, row, column, board):
-    cond = False
-    boardCopy = board.copy()
+def valid(turn, row, column, n, board):
+    if n == 1:
+        if column + 1 < 9:
+            if turn == 1:
+                if board[row][column+1] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row, column+1, n, board)
+            if turn == 2:
+                if board[row][column+1] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row, column+1, n, board)
+        else:
+            array.append(False)
+    elif n == 2:
+        if column - 1 > 0:
+            if turn == 1:
+                if board[row][column - 1] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row, column - 1, n, board)
+            if turn == 2:
+                if board[row][column - 1] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row, column - 1, n, board)
+        else:
+            array.append(False)
+    elif n == 3:
+        if row + 1 < 9:
+            if turn == 1:
+                if board[row+1][column] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row+1, column, n, board)
+            if turn == 2:
+                if board[row+1][column] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row+1, column, n, board)
+        else:
+            array.append(False)
+    elif n == 4:
+        if row - 1 > 0:
+            if turn == 1:
+                if board[row-1][column] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row-1, column, n, board)
+            if turn == 2:
+                if board[row-1][column] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row-1, column, n, board)
+        else:
+            array.append(False)
+    elif n == 5:
+        if row + 1 < 9 and column + 1 < 9:
+            if turn == 1:
+                if board[row+1][column+1] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row+1, column+1, n, board)
+            if turn == 2:
+                if board[row+1][column+1] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row+1, column+1, n, board)
+        else:
+            array.append(False)
+    elif n == 6:
+        if row - 1 > 0 and column - 1 > 0:
+            if turn == 1:
+                if board[row-1][column-1] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row-1, column-1, n, board)
+            if turn == 2:
+                if board[row-1][column-1] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row-1, column-1, n, board)
+        else:
+            array.append(False)
+    elif n == 7:
+        if row - 1 > 0 and column + 1 < 9:
+            if turn == 1:
+                if board[row-1][column+1] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row-1, column+1, n, board)
+            if turn == 2:
+                if board[row-1][column+1] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row-1, column+1, n, board)
+        else:
+            array.append(False)
+    elif n == 8:
+        if row + 1 < 9 and column - 1 > 0:
+            if turn == 1:
+                if board[row+1][column-1] == "B":
+                    array.append(True)
+                else:
+                    valid(turn, row+1, column-1, n, board)
+            if turn == 2:
+                if board[row+1][column-1] == "W":
+                    array.append(True)
+                else:
+                    valid(turn, row+1, column-1, n, board)
+        else:
+            array.append(False)
+
+
+def right(turn, row, column, board):
     while column <= 9:
         if turn == 1:
-            if board[row][column+1] == "W":
-                board[row][column+1] = "B"
+            if board[row][column + 1] == "W":
+                board[row][column + 1] = "B"
                 column += 1
             else:
-                if board[row][column+1] == "B":
-                    cond = True
                 break
         elif turn == 2:
-            if board[row][column+1] == "B":
-                board[row][column+1] = "W"
+            if board[row][column + 1] == "B":
+                board[row][column + 1] = "W"
                 column += 1
             else:
-                if board[row][column+1] == "W":
-                    cond = True
                 break
-    if cond:
-        return board
-    else:
-        return boardCopy
 
 
-def horizontal2(turn, row, column2, board):
-    cond = False
-    boardCopy = board.copy()
+def left(turn, row, column2, board):
     while column2 > 0:
         if turn == 1:
             if board[row][column2-1] == "W":
                 board[row][column2-1] = "B"
                 column2 -= 1
             else:
-                if board[row][column2-1] == "B":
-                    cond = True
                 break
         elif turn == 2:
             if board[row][column2-1] == "B":
                 board[row][column2-1] = "W"
                 column2 -= 1
             else:
-                if board[row][column2-1] == "W":
-                    cond = True
                 break
-    if cond:
-        return board
-    else:
-        return boardCopy
 
 
-def vertical1(turn, row, column, board):
-    cond = False
-    boardCopy = board.copy()
+def up(turn, row, column, board):
     while row <= 9:
         if turn == 1:
             if board[row+1][column] == "W":
                 board[row+1][column] = "B"
                 row += 1
             else:
-                if board[row+1][column] == "B":
-                    cond = True
                 break
         elif turn == 2:
             if board[row+1][column] == "B":
                 board[row+1][column] = "W"
                 row += 1
             else:
-                if board[row+1][column] == "W":
-                    cond = True
                 break
-    if cond:
-        return board
-    else:
-        return boardCopy
 
 
-def vertical2(turn, row2, column, board):
-    cond = False
-    boardCopy = board.copy()
+def down(turn, row2, column, board):
     while row2 > 0:
         if turn == 1:
             if board[row2-1][column] == "W":
                 board[row2-1][column] = "B"
                 row2 -= 1
             else:
-                if board[row2-1][column] == "B":
-                    cond = True
                 break
         elif turn == 2:
             if board[row2-1][column] == "B":
                 board[row2-1][column] = "W"
                 row2 -= 1
             else:
-                if board[row2-1][column] == "B":
-                    cond = True
                 break
-    if cond:
-        return board
-    else:
-        return boardCopy
 
 
-def diagonal1(turn, row, column, board):
-    cond = False
-    boardCopy = []
-    for i in board:
-        boardCopy.append(i)
+# down right + +
+def dia1(turn, row, column, board):
     while column <= 9 and row <= 9:
         if turn == 1:
             if board[row + 1][column + 1] == "W":
@@ -166,8 +242,6 @@ def diagonal1(turn, row, column, board):
                 row += 1
                 column += 1
             else:
-                if board[row + 1][column + 1] == "B":
-                    cond = True
                 break
         elif turn == 2:
             if board[row + 1][column + 1] == "B":
@@ -175,20 +249,11 @@ def diagonal1(turn, row, column, board):
                 row += 1
                 column += 1
             else:
-                if board[row + 1][column + 1] == "W":
-                    cond = True
                 break
-    if cond:
-        return board
-    else:
-        return boardCopy
 
 
-def diagonal2(turn, row2, column2, board):
-    cond = False
-    boardCopy = []
-    for i in board:
-        boardCopy.append(i)
+# up left - -
+def dia2(turn, row2, column2, board):
     while column2 >= 0 and row2 >= 0:
         if turn == 1:
             if board[row2 - 1][column2 - 1] == "W":
@@ -196,8 +261,6 @@ def diagonal2(turn, row2, column2, board):
                 column2 -= 1
                 row2 -= 1
             else:
-                if board[row2 - 1][column2 - 1] == "B":
-                    cond = True
                 break
         elif turn == 2:
             if board[row2 - 1][column2 - 1] == "B":
@@ -205,20 +268,11 @@ def diagonal2(turn, row2, column2, board):
                 column2 -= 1
                 row2 -= 1
             else:
-                if board[row2 - 1][column2 - 1] == "W":
-                    cond = True
                 break
-    if cond:
-        return board
-    else:
-        return boardCopy
 
 
-def diagonal3(turn, row, column, board):
-    cond = False
-    boardCopy = []
-    for i in board:
-        boardCopy.append(i)
+# up right - +
+def dia3(turn, row, column, board):
     while column <= 9 and row >= 0:
         if turn == 1:
             if board[row - 1][column + 1] == "W":
@@ -226,33 +280,18 @@ def diagonal3(turn, row, column, board):
                 row -= 1
                 column += 1
             else:
-                if board[row - 1][column + 1] == "B":
-                    cond = True
                 break
         elif turn == 2:
-            # print(row-1, column+1)
-            # print(board[row - 1][column + 1])
             if board[row - 1][column + 1] == "B":
                 board[row - 1][column + 1] = "W"
                 row -= 1
                 column += 1
             else:
-                if board[row - 1][column + 1] == "W":
-                    cond = True
                 break
 
-    if cond:
-        return board
-    else:
-        board = boardCopy
-        return board
 
-
-def diagonal4(turn, row2, column2, board):
-    cond = False
-    boardCopy = []
-    for i in board:
-        boardCopy.append(i)
+# down left + -
+def dia4(turn, row2, column2, board):
     while column2 >= 0 and row2 <= 9:
         if turn == 1:
             if board[row2 + 1][column2 - 1] == "W":
@@ -260,8 +299,6 @@ def diagonal4(turn, row2, column2, board):
                 column2 -= 1
                 row2 += 1
             else:
-                if board[row2 + 1][column2 - 1] == "B":
-                    cond = True
                 break
         elif turn == 2:
             if board[row2 + 1][column2 - 1] == "B":
@@ -269,14 +306,7 @@ def diagonal4(turn, row2, column2, board):
                 column2 -= 1
                 row2 += 1
             else:
-                if board[row2 + 1][column2 - 1] == "W":
-                    cond = True
                 break
-    if cond:
-        return board
-    else:
-        return boardCopy
-
 
 ########################################
 inp = list(input().split())
@@ -287,32 +317,81 @@ inp.pop(0)
 inp.pop(0)
 
 for i in range(numTurns):
-    row = inp[0]
-    column = inp[1]
+    row = int(inp[0])
+    column = int(inp[1])
     if i % 2 == 0:
-        board[int(row)][int(column)] = "B"
-        temp = horizontal1(1, int(row), int(column), board)
-        temp = horizontal2(1, int(row), int(column), temp)
-        temp = vertical1(1, int(row), int(column), temp)
-        temp = vertical2(1, int(row), int(column), temp)
-        temp = diagonal1(1, int(row), int(column), temp)
-        temp = diagonal2(1, int(row), int(column), temp)
-        temp = diagonal3(1, int(row), int(column), temp)
-        temp = diagonal4(1, int(row), int(column), temp)
+        board[row][column] = "B"
+
+        valid(1, row, column, 1, board)
+        if True in array:
+            right(1, row, column, board)
+            array.clear()
+        valid(1, row, column, 2, board)
+        if True in array:
+            left(1, row, column, board)
+            array.clear()
+        valid(1, row, column, 3, board)
+        if True in array:
+            up(1, row, column, board)
+            array.clear()
+        valid(1, row, column, 4, board)
+        if True in array:
+            down(1, row, column, board)
+            array.clear()
+        valid(1, row, column, 5, board)
+        if True in array:
+            dia1(1, row, column, board)
+            array.clear()
+        valid(1, row, column, 6, board)
+        if True in array:
+            dia2(1, row, column, board)
+            array.clear()
+        valid(1, row, column, 7, board)
+        if True in array:
+            dia3(1, row, column, board)
+            array.clear()
+        valid(1, row, column, 8, board)
+        if True in array:
+            dia4(1, row, column, board)
+            array.clear()
     else:
         board[int(row)][int(column)] = "W"
-        temp = horizontal1(2, int(row), int(column), board)
-        temp = horizontal2(2, int(row), int(column), temp)
-        temp = vertical1(2, int(row), int(column), temp)
-        temp = vertical2(2, int(row), int(column), temp)
-        temp = diagonal1(2, int(row), int(column), temp)
-        temp = diagonal2(2, int(row), int(column), temp)
-        temp = diagonal3(2, int(row), int(column), temp)
-        temp = diagonal4(2, int(row), int(column), temp)
 
-    for i in temp:
-        print(i)
-    print("")
+        valid(2, row, column, 1, board)
+        if True in array:
+            right(2, row, column, board)
+            array.clear()
+        valid(2, row, column, 2, board)
+        if True in array:
+            left(2, row, column, board)
+            array.clear()
+        valid(2, row, column, 3, board)
+        if True in array:
+            up(2, row, column, board)
+            array.clear()
+        valid(2, row, column, 4, board)
+        if True in array:
+            down(2, row, column, board)
+            array.clear()
+        valid(2, row, column, 5, board)
+        if True in array:
+            dia1(2, row, column, board)
+            array.clear()
+        valid(2, row, column, 6, board)
+        if True in array:
+            dia2(2, row, column, board)
+            array.clear()
+        valid(2, row, column, 7, board)
+        if True in array:
+            dia3(2, row, column, board)
+            array.clear()
+        valid(2, row, column, 8, board)
+        if True in array:
+            dia4(2, row, column, board)
+            array.clear()
+    # for i in board:
+    #     print(i)
+    # print("")
 
     inp.pop(0)
     inp.pop(0)
