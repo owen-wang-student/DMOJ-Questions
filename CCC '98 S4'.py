@@ -123,7 +123,6 @@ for i in range(n):
                             break
                     operations["+"].pop(0)
     print(" ".join(inp))
-# 1 X 2 + 2 X 3 + 2
 
 # 8
 # 1 + 2
@@ -132,7 +131,7 @@ for i in range(n):
 # 1 + 2 X 3 - 4
 # 1 - 2 X 3 X 4
 # 1 X 2 X 3 X 4 X 5 X 6 X 7 X 8 X 9
-# 1 - 2 X 3 X 4 X 5 + 6 X 7 X 8 - 9
+# 1 - 2 X 3 X 4 X 5 + 6 X 7 X 8 - 9 *************************
 # 1 X 1 + 1 X 1 + 1 X 1
 
 
