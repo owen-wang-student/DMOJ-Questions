@@ -80,11 +80,3 @@ for i in range(int(input())):
             print(get(int(num[j]), len(num)-j), end="")
         print()
 
-# 7
-# I+I=
-# IV+IV=
-# V+IV=
-# L+L=
-# CC+CC=
-# D+CDXCIX=
-# D+CDL=
