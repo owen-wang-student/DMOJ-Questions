@@ -19,7 +19,7 @@ for i in range(numMoves):
     elif move[0] == "C":
         if move[1] not in column:
             column.append(move[1])
-            c += 1
+            c += 1x
         else:
             c -= 1
 
