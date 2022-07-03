@@ -146,10 +146,6 @@ while numSteps > 1:
 print(currentColumn)
 print(currentRow)
 
-# 11
-# 12
-# 5
-# 5
-# 20
+
 
 
