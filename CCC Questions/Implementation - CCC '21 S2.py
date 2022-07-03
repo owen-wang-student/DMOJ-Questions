@@ -1,28 +1,20 @@
-rows = int(input())
-columns = int(input())
+import sys
+r = int(input())
+c = int(input())
+row = [0]*r
+column = [0]*c
 
-numMoves = int(input())
+n = int(input())
+for i in range(n):
+    inp = sys.stdin.readline().split()
+    if inp[0] == "R":
+        row[int(inp[1])-1] = row[int(inp[1])-1] % 2 + 1
+    elif inp[0] == "C":
+        column[int(inp[1])-1] = column[int(inp[1])-1] % 2 + 1
 
-r = c = 0
-
-row = []
-column = []
-
-for i in range(numMoves):
-    move = input().split()
-    if move[0] == "R":
-        if move[1] not in row:
-            row.append(move[1])
-            r += 1
-        else:
-            r -= 1
-    elif move[0] == "C":
-        if move[1] not in column:
-            column.append(move[1])
-            c += 1
-        else:
-            c -= 1
-
-print((columns*r) + (rows*c) - (2*r*c))
-
-#TLE LAST CASE :(((
+area = r*c
+for i in row:
+    for j in column:
+        if (i+j) % 2 == 0:
+            area -= 1
+print(area)
