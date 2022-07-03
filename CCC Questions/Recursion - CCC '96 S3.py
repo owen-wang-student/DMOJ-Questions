@@ -17,5 +17,4 @@ for i in range(n):
     numOnes = inp[1]
     print("The bit patterns are")
     comb(totalDigits, "", numOnes)
-
     print()
