@@ -1,44 +1,26 @@
-n1, n2 = list(map(int, input().split()))
+vertices, edges = list(map(int, input().split()))
 
-order = []
-direction = []  # 0 = left 1 = right
-FINAL = [[] for i in range(n1+n2)]
+graph = [[99999 for i in range(vertices)] for j in range(vertices)]
 
-inp = input()
-for i in inp:
-    order.append(i)
-    direction.append(0)
-order.reverse()
-inp = input()
-for i in inp:
-    order.append(i)
-    direction.append(1)
+for i in range(edges):
+    u, v, weight = list(map(int, input().split()))
+    graph[u-1][v-1] = weight
 
-t = int(input())
+for i in range(vertices):
+    for j in range(vertices):
+        if i == j:
+            graph[i][j] = 0
+            continue
+        for k in range(vertices):
+            graph[i][k] = min(graph[i][j] + graph[j][k], graph[i][k])
+            graph[k][i] = min(graph[i][j] + graph[j][k], graph[k][i])
 
-# print(" ".join(order))
+for i in range(vertices):
+    if graph[0][i] != 99999:
+        print(graph[0][i])
+    else:
+        print(-1)
 
-for i in range(t):
-    j = 0
-    while j < len(order)-1:
 
-        if direction[j] != direction[j+1] and direction[j] < direction[j+1]: # Added fix for when not bumping into one another
 
-            temp = order[j]
-            order[j] = order[j+1]
-            order[j+1] = temp
-
-            direction[j] = (direction[j] + 1) % 2
-            direction[j+1] = (direction[j+1] + 1) % 2
-
-            j += 1
-
-        j += 1
-
-    # print(" ".join(order))
-    # for k in direction: print(k, end=" ")
-    # print()
-    # print()
-
-print("".join(order))
 
