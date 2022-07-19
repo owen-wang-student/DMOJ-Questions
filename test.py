@@ -1,26 +1,40 @@
-vertices, edges = list(map(int, input().split()))
+n, m, s, e = list(map(int, input().split()))
 
-graph = [[99999 for i in range(vertices)] for j in range(vertices)]
+# define graph
+graph = []
+for i in range(n):
+    graph.append([])
 
-for i in range(edges):
-    u, v, weight = list(map(int, input().split()))
-    graph[u-1][v-1] = weight
+# add bidirectional edges
+for i in range(m):
+    a, b = input().split()
+    graph[int(a) - 1].append(int(b))
+    graph[int(b) - 1].append(int(a))
 
-for i in range(vertices):
-    for j in range(vertices):
-        if i == j:
-            graph[i][j] = 0
-            continue
-        for k in range(vertices):
-            graph[i][k] = min(graph[i][j] + graph[j][k], graph[i][k])
-            graph[k][i] = min(graph[i][j] + graph[j][k], graph[k][i])
+# print graph
+# for i in graph:
+#     print(i)
 
-for i in range(vertices):
-    if graph[0][i] != 99999:
-        print(graph[0][i])
-    else:
-        print(-1)
+# check for connectivity
 
+cond = False
 
+queue = graph[s-1]
 
+visited = []
 
+while len(queue) > 0:
+    v = queue.pop(0)
+    if v not in visited:
+        queue.extend(graph[v-1])
+        if v == e:
+            cond = True
+            break
+        visited.append(v)
+
+    print(queue)
+
+if cond:
+    print("GO SHAHIR!")
+else:
+    print("NO SHAHIR!")
